@@ -1,0 +1,102 @@
+
+
+<form name="TestForm" action="test.php" method="post">
+    First: <input type="text" name="fname" id="fname" value="mike" /><br />
+    Last: <input type="text" name="lname" id="lname" value="smith" /><br />
+    Age: <input type="text" name="age" id="age" value="50" /><br />
+
+    <input type="button" value="SEND via AJAX" onclick="postData()" >
+    <input type="submit">
+</form>
+<div id="output1"></div>
+<div id="astatus">Status</div>
+
+<script>
+
+   var output1 = document.getElementById('output1');
+   var astatus = document.getElementById('astatus');
+   
+
+   function postData() {
+        var firstName = document.getElementById('fname').value;
+        var lastName = document.getElementById('lname').value;
+        var age = document.getElementById('age').value;
+        var vars = "fname=" + firstName + "&lname=" + lastName + "&age=" + age;
+             
+
+        
+
+        console.log(vars);
+        var hr = new XMLHttpRequest();
+        var url = "test.php";
+
+        
+
+        hr.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+                    
+                    var myObj = JSON.parse(hr.responseText);
+                    astatus.innerHTML = myObj.xstatus + ' ' + myObj.id;
+                    if(!myObj.connected) {
+                        astatus.innerHTML = myObj.error;
+                    }
+                    console.log(myObj);
+            }
+                
+        }
+
+        hr.open("POST", url, true);
+        hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        hr.send(vars);
+        astatus.innerHtml = "procesing ..."
+
+
+
+
+   }
+</script>
+
+
+<!--
+
+//    var hr = new XMLHttpRequest();
+//    var url = "https://api.myjson.com/bins/1aedlh";
+
+   
+
+//    hr.onreadystatechange = function() {
+//        if(this.readyState == 4 && this.status == 200) {
+            
+//             var myObj = JSON.parse(hr.responseText);
+
+//             output1.innerHTML = myObj.people[1].firstName;
+//        }
+        
+//    }
+
+//    hr.open("GET", url, true);
+//    hr.send();
+
+//    console.log(hr);
+
+
+
+//    var myObj1 = '{"people":[{"firstName":"Mike","lastName":"Smith","age":30},{"firstName":"John","lastName":"Jones","age":40}],"places":[{"location":"Toronto","lat":87,"long":140},{"location":"New York","lat":67,"long":110},{"location":"NewTown","lat":99,"long":444}]}'
+
+//    console.log(myObj1);
+
+//    var myObj = JSON.parse(myObj1);
+
+//    console.log(myObj);
+
+//    for (var i = 0; i < myObj.people.length; i++) {
+//      output1.innerHTML += "<br>" + myObj.people[i].firstName + " " + myObj.people[i].lastName;
+//    }
+
+//    for (var i = 0; i < myObj.places.length; i++) {
+//      output2.innerHTML += "<br>" + myObj.places[i].location + " (" + myObj.places[i].lat + "," + myObj.places[i].long + ")";
+//    }
+
+
+
+</script> -->
